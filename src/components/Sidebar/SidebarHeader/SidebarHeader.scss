@@ -1,0 +1,21 @@
+@import 'variables.scss';
+
+.sidebar-header-container {
+    display: flex;
+    align-items: center;
+    padding: $p-lg;
+    box-shadow: 0px 0px 5px -1px $dark-shade inset;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    border-color: $dark-shade;
+
+    h3 {
+        flex-grow: 2;
+    }
+
+    .new-chat-button {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}

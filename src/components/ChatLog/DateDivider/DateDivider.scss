@@ -1,0 +1,17 @@
+@import 'variables.scss';
+
+.date-divider-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .divider {
+        height: 1px;
+        background-color: $dark;
+        flex-grow: 1;
+    }
+
+    .date-container {
+        padding: $p-sm;
+    }
+}

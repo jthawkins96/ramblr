@@ -1,0 +1,21 @@
+@import 'variables.scss';
+
+.top-nav-container {
+    display: flex;
+
+    .offset {
+        width: 20%;
+    }
+
+    .content-container {
+        display: flex;
+        justify-content: space-between;
+        flex-grow: 1;
+        padding: $p-sm $p-lg $p-sm 0;
+
+        .search-box-wrapper {
+            padding-right: 25%;
+            flex-grow: 2;
+        }
+    }
+}

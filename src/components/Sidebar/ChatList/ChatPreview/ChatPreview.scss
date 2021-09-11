@@ -1,0 +1,27 @@
+@import 'variables.scss';
+
+.chat-preview-container {
+    display: flex;
+    padding: $p-sm $p-lg;
+
+    .message-preview-container {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        min-width: 0;
+        padding-left: $p-sm;
+
+        .message-preview-header-container {
+            display: flex;
+
+            h4 {
+                flex-grow: 2;
+            }
+        }
+    }
+
+    &:hover {
+        background: rgba($dark-tint, 0.3);
+        cursor: pointer;
+    }
+}

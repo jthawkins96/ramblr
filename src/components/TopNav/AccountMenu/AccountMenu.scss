@@ -1,0 +1,8 @@
+@import 'variables.scss';
+
+.account-menu-container {
+    &:hover {
+        cursor: pointer;
+        opacity: 0.9;
+    }
+}
