@@ -1,24 +1,21 @@
-import ChatLog from 'components/ChatLog/ChatLog';
-import Sidebar from 'components/Sidebar/Sidebar';
-import TopNav from 'components/TopNav/TopNav';
+import { Route, Switch, Redirect, BrowserRouter } from 'react-router-dom';
+import Home from 'components/Home/Home';
+import Login from 'components/Login/Login';
 import './App.scss';
 
-function App() {
+const App = () => {
     return (
         <div className="root-container">
-            <div className="top-nav-wrapper">
-                <TopNav />
-            </div>
-            <div className="content-container">
-                <div className="sidebar-wrapper">
-                    <Sidebar />
-                </div>
-                <div className="chat-log-wrapper">
-                    <ChatLog />
-                </div>
-            </div>
+            <BrowserRouter>
+                <Switch>
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/register" component={Login} />
+                    <Redirect to="/login" />
+                    <Route path="/" component={Home} />
+                </Switch>
+            </BrowserRouter>
         </div>
     );
-}
+};
 
 export default App;

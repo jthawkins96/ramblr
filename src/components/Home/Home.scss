@@ -1,0 +1,26 @@
+@import 'variables.scss';
+
+.home-container {
+    .top-nav-wrapper {
+        background: $primary;
+    }
+
+    .content-container {
+        display: flex;
+        flex-grow: 1;
+        min-height: 0;
+
+        .sidebar-wrapper {
+            width: 20%;
+            background: $dark;
+            color: $light;
+            overflow-y: auto;
+        }
+
+        .chat-log-wrapper {
+            width: 80%;
+            background: $light;
+            color: $dark;
+        }
+    }
+}
