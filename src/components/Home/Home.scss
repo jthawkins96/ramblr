@@ -1,6 +1,10 @@
-@import 'variables.scss';
+@import '_variables.scss';
 
 .home-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
     .top-nav-wrapper {
         background: $primary;
     }

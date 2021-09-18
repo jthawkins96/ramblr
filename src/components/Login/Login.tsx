@@ -1,7 +1,31 @@
+import { UserCredential } from '@firebase/auth';
+import { signInWithGoogle } from 'firebase/firebase.utils';
+import UserModel from 'models/redux/UserModel';
 import { useState } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { SIGN_IN } from 'redux/actions/types';
 import './Login.scss';
 
-const Login = () => {
+interface LoginProps {
+    signIn: (user: UserModel) => void;
+    history: any;
+}
+
+const Login = (props: LoginProps) => {
+    const handleGoogleSignIn = (result: UserCredential) => {
+        const user = result.user;
+        const mappedUser = {
+            id: user.uid,
+            name: user.displayName,
+            email: user.email,
+            accessToken: user.email,
+        };
+
+        props.signIn(mappedUser);
+        props.history.push('/');
+    };
+
     const [focusState, setFocusState] = useState('');
 
     return (
@@ -33,11 +57,25 @@ const Login = () => {
                 </label>
             </div>
             <div className="form-footer">
-                <button type="submit">Login</button>
-                <button type="button">Sign in with Google</button>
+                <button className="btn btn-primary text-light" type="submit">
+                    Login
+                </button>
+                <button
+                    className="btn btn-primary text-light"
+                    type="button"
+                    onClick={() => signInWithGoogle(handleGoogleSignIn)}
+                >
+                    Sign in with Google
+                </button>
             </div>
         </form>
     );
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch: Dispatch) => {
+    return {
+        signIn: (user: UserModel) => dispatch({ type: SIGN_IN, payload: user }),
+    };
+};
+
+export default connect(null, mapDispatchToProps)(Login);

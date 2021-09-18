@@ -8,6 +8,8 @@ import {
     signInWithEmailAndPassword,
     UserCredential,
     signOut,
+    GoogleAuthProvider,
+    signInWithPopup,
 } from 'firebase/auth';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -29,6 +31,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 export const db = getFirestore();
 export const auth = getAuth();
+const googleProvider = new GoogleAuthProvider();
 
 export const createUser = (
     email: string,
@@ -50,4 +53,19 @@ export const login = (
 
 export const logout = (handleResponse: () => void, handleError: (error: any) => void) => {
     signOut(auth).then(handleResponse).catch(handleError);
+};
+
+export const signInWithGoogle = (handleResponse: (user: UserCredential) => void) => {
+    signInWithPopup(auth, googleProvider)
+        .then(handleResponse)
+        .catch(error => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.email;
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+        });
 };

@@ -1,6 +1,16 @@
 import { db } from 'firebase/firebase.utils';
-import { collection, addDoc, CollectionReference, DocumentData, getDoc, doc, getDocs, setDoc, deleteDoc } from 'firebase/firestore';
-import BaseDocumentModel from 'models/BaseDocumentModel';
+import {
+    collection,
+    addDoc,
+    CollectionReference,
+    DocumentData,
+    getDoc,
+    doc,
+    getDocs,
+    setDoc,
+    deleteDoc,
+} from 'firebase/firestore';
+import BaseDocumentModel from 'models/firebase/BaseDocumentModel';
 
 export class BaseRepository<TDocument extends BaseDocumentModel> {
     readonly collectionName: string;
