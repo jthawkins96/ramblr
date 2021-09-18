@@ -1,74 +1,8 @@
-@mixin shrinkLabel {
-    top: -20px;
-    font-size: 0.75rem;
-    color: black;
-}
-
-.login-form {
+.form-footer {
     display: flex;
-    padding: 15% 35% 0 35%;
-    justify-content: center;
-    flex-direction: column;
+    justify-content: space-between;
 
-    .input-group {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 2.75rem;
-
-        .form-label {
-            position: absolute;
-            top: 2px;
-            left: 0;
-            transition: 0.1s;
-            font-size: 1.25rem;
-            color: rgba(0, 0, 0, 0.6);
-
-            &.shrink {
-                @include shrinkLabel();
-            }
-
-            &:hover {
-                cursor: text;
-            }
-        }
-
-        .form-input {
-            border: none;
-            border-bottom: 1px solid black;
-            font-size: 1.25rem;
-            line-height: 2rem;
-            transition: 0.1s;
-
-            &:focus {
-                outline: none;
-            }
-
-            @keyframes side-to-side {
-                0% {
-                    transform: translateX(-3px);
-                }
-
-                33% {
-                    transform: translateX(3px);
-                }
-
-                66% {
-                    transform: translateX(-3px);
-                }
-
-                100% {
-                    transform: translateX(0px);
-                }
-            }
-        }
-    }
-
-    .form-footer {
-        display: flex;
-        justify-content: space-between;
-
-        button {
-            flex-basis: 49%;
-        }
+    button {
+        flex-basis: 49%;
     }
 }

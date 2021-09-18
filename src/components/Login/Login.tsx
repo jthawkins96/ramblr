@@ -1,5 +1,7 @@
 import { UserCredential } from '@firebase/auth';
-import { signInWithGoogle } from 'firebase/firebase.utils';
+import Form from 'components/shared/Form/Form';
+import FormTextInput from 'components/shared/Form/FormInput/FormTextInput';
+import { signInWithGoogle, login } from 'firebase/firebase.utils';
 import UserModel from 'models/redux/UserModel';
 import { useState } from 'react';
 import { connect } from 'react-redux';
@@ -13,7 +15,7 @@ interface LoginProps {
 }
 
 const Login = (props: LoginProps) => {
-    const handleGoogleSignIn = (result: UserCredential) => {
+    const handleSignIn = (result: UserCredential) => {
         const user = result.user;
         const mappedUser = {
             id: user.uid,
@@ -26,49 +28,71 @@ const Login = (props: LoginProps) => {
         props.history.push('/');
     };
 
-    const [focusState, setFocusState] = useState('');
+    const submitForm = () => {
+        if (isValid()) {
+            login(formState.username, formState.password, handleSignIn, error => console.log(error));
+        }
+
+        setSubmitState(true);
+    };
+
+    const isValid = () => {
+        return !(
+            formState.username === '' ||
+            formState.username == null ||
+            formState.password === '' ||
+            formState.password == null
+        );
+    };
+
+    const [formState, setFormState] = useState({
+        username: '',
+        password: '',
+    });
+
+    const [submitted, setSubmitState] = useState(false);
 
     return (
-        <form className="login-form">
-            <div className="input-group">
-                <input
+        <Form className="login-form">
+            <div>
+                <FormTextInput
                     id="email"
-                    className="form-input"
-                    type="text"
                     name="email"
-                    onFocus={() => setFocusState('shrink')}
+                    type="text"
+                    label="Email"
+                    value={formState.username}
+                    onChange={e => setFormState({ ...formState, username: e.target.value })}
                     required={true}
+                    touched={submitted}
+                    showValidationMessage={formState.username == null || formState.username === ''}
+                    validationMessage="Username is required."
                 />
-                <label htmlFor="email" className={`form-label ${focusState}`}>
-                    Email
-                </label>
-            </div>
-            <div className="input-group">
-                <input
+                <FormTextInput
                     id="password"
-                    className="form-input"
-                    type="password"
                     name="password"
-                    onFocus={() => setFocusState('shrink')}
+                    type="password"
+                    value={formState.password}
+                    onChange={e => setFormState({ ...formState, password: e.target.value })}
+                    label="Password"
                     required={true}
+                    touched={submitted}
+                    showValidationMessage={formState.password == null || formState.password === ''}
+                    validationMessage="Password is required."
                 />
-                <label htmlFor="password" className={`form-label ${focusState}`}>
-                    Password
-                </label>
+                <div className="form-footer">
+                    <button className="btn btn-primary text-light" type="button" onClick={() => submitForm()}>
+                        Login
+                    </button>
+                    <button
+                        className="btn btn-primary text-light"
+                        type="button"
+                        onClick={() => signInWithGoogle(handleSignIn)}
+                    >
+                        Sign in with Google
+                    </button>
+                </div>
             </div>
-            <div className="form-footer">
-                <button className="btn btn-primary text-light" type="submit">
-                    Login
-                </button>
-                <button
-                    className="btn btn-primary text-light"
-                    type="button"
-                    onClick={() => signInWithGoogle(handleGoogleSignIn)}
-                >
-                    Sign in with Google
-                </button>
-            </div>
-        </form>
+        </Form>
     );
 };
 
