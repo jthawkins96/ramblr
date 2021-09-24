@@ -1,13 +1,18 @@
-import { shallow, ShallowWrapper } from 'enzyme';
-import App from 'components/Root/App';
-import AccountMenu from 'components/AccountMenu/AccountMenu';
+import { mount, ReactWrapper } from 'enzyme';
+import AccountMenu from 'components/TopNav/AccountMenu/AccountMenu';
 import ChatLog from 'components/ChatLog/ChatLog';
 import Sidebar from 'components/Sidebar/Sidebar';
+import Root from 'components/Root/Root';
+import Home from 'components/Home/Home';
 
-let component: ShallowWrapper;
+let component: ReactWrapper;
 
 beforeEach(() => {
-    component = shallow(<App />);
+    component = mount(
+        <Root>
+            <Home />
+        </Root>
+    );
 });
 
 it('shows an account menu', () => {

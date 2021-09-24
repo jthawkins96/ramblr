@@ -3,7 +3,7 @@ import Form from 'components/shared/Form/Form';
 import FormTextInput from 'components/shared/Form/FormInput/FormTextInput';
 import { signInWithGoogle, login } from 'firebase/firebase.utils';
 import UserModel from 'models/redux/UserModel';
-import { useState } from 'react';
+import { FormEventHandler, useState } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { SIGN_IN } from 'redux/actions/types';
@@ -11,7 +11,7 @@ import './Login.scss';
 
 interface LoginProps {
     signIn: (user: UserModel) => void;
-    history: any;
+    history?: any;
 }
 
 const Login = (props: LoginProps) => {
@@ -28,7 +28,9 @@ const Login = (props: LoginProps) => {
         props.history.push('/');
     };
 
-    const submitForm = () => {
+    const submitForm: FormEventHandler = e => {
+        e.preventDefault();
+
         if (isValid()) {
             login(formState.username, formState.password, handleSignIn, error => console.log(error));
         }
@@ -37,12 +39,7 @@ const Login = (props: LoginProps) => {
     };
 
     const isValid = () => {
-        return !(
-            formState.username === '' ||
-            formState.username == null ||
-            formState.password === '' ||
-            formState.password == null
-        );
+        return !(formState.username === '' || formState.username == null || formState.password === '' || formState.password == null);
     };
 
     const [formState, setFormState] = useState({
@@ -53,7 +50,7 @@ const Login = (props: LoginProps) => {
     const [submitted, setSubmitState] = useState(false);
 
     return (
-        <Form className="login-form">
+        <Form className="login-form" onSubmit={submitForm}>
             <div>
                 <FormTextInput
                     id="email"
@@ -80,10 +77,11 @@ const Login = (props: LoginProps) => {
                     validationMessage="Password is required."
                 />
                 <div className="form-footer">
-                    <button className="btn btn-primary text-light" type="button" onClick={() => submitForm()}>
+                    <button id="sign-in-button" className="btn btn-primary text-light" type="submit">
                         Login
                     </button>
                     <button
+                        id="google-sign-in-button"
                         className="btn btn-primary text-light"
                         type="button"
                         onClick={() => signInWithGoogle(handleSignIn)}

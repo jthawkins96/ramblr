@@ -29,12 +29,10 @@ const FormTextInput = (props: FormTextInputProps) => {
                 onFocus={() => setFocusState(true)}
                 required={props.required}
             />
-            <label htmlFor="email" className={`form-label ${isFocused ? 'shrink' : ''}`}>
+            <label htmlFor={props.id} className={`form-label ${isFocused ? 'shrink' : ''}`}>
                 {props.label}
             </label>
-            {props.showValidationMessage && props.touched ? (
-                <span className="error-message">{props.validationMessage}</span>
-            ) : null}
+            {props.showValidationMessage && props.touched ? <span className="error-message">{props.validationMessage}</span> : null}
         </div>
     );
 };

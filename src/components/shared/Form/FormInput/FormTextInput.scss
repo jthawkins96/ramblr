@@ -16,7 +16,6 @@
         transition: 0.1s;
         font-size: 1.25rem;
         color: rgba(0, 0, 0, 0.6);
-        z-index: -1;
 
         &.shrink {
             @include shrinkLabel();
