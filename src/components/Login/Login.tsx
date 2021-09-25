@@ -5,6 +5,7 @@ import { signInWithGoogle, login } from 'firebase/firebase.utils';
 import UserModel from 'models/redux/UserModel';
 import { FormEventHandler, useState } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { SIGN_IN } from 'redux/actions/types';
 import './Login.scss';
@@ -32,10 +33,34 @@ const Login = (props: LoginProps) => {
         e.preventDefault();
 
         if (isValid()) {
-            login(formState.username, formState.password, handleSignIn, error => console.log(error));
+            login(formState.username, formState.password, handleSignIn, error => {
+                console.log(error);
+                if (error.code.includes('auth/invalid-email'))
+                    setFormState({
+                        ...formState,
+                        validationState: {
+                            isValid: false,
+                            validationMessage: 'Invalid email address.',
+                        },
+                    });
+                else if (error.code.includes('auth/wrong-password') || error.code.includes('auth/user-not-found'))
+                    setFormState({
+                        ...formState,
+                        validationState: {
+                            isValid: false,
+                            validationMessage: 'Invalid username or password.',
+                        },
+                    });
+                else
+                    setFormState({
+                        ...formState,
+                        validationState: {
+                            isValid: false,
+                            validationMessage: 'An unexpected error occurred.',
+                        },
+                    });
+            });
         }
-
-        setSubmitState(true);
     };
 
     const isValid = () => {
@@ -45,12 +70,14 @@ const Login = (props: LoginProps) => {
     const [formState, setFormState] = useState({
         username: '',
         password: '',
+        validationState: {
+            isValid: true,
+            validationMessage: '',
+        },
     });
 
-    const [submitted, setSubmitState] = useState(false);
-
     return (
-        <Form className="login-form" onSubmit={submitForm}>
+        <Form className="login-form" onSubmit={submitForm} validationMessage={formState.validationState.validationMessage}>
             <div>
                 <FormTextInput
                     id="email"
@@ -59,10 +86,7 @@ const Login = (props: LoginProps) => {
                     label="Email"
                     value={formState.username}
                     onChange={e => setFormState({ ...formState, username: e.target.value })}
-                    required={true}
-                    touched={submitted}
-                    showValidationMessage={formState.username == null || formState.username === ''}
-                    validationMessage="Username is required."
+                    required={false}
                 />
                 <FormTextInput
                     id="password"
@@ -71,10 +95,7 @@ const Login = (props: LoginProps) => {
                     value={formState.password}
                     onChange={e => setFormState({ ...formState, password: e.target.value })}
                     label="Password"
-                    required={true}
-                    touched={submitted}
-                    showValidationMessage={formState.password == null || formState.password === ''}
-                    validationMessage="Password is required."
+                    required={false}
                 />
                 <div className="form-footer">
                     <button id="sign-in-button" className="btn btn-primary text-light" type="submit">
@@ -88,6 +109,9 @@ const Login = (props: LoginProps) => {
                     >
                         Sign in with Google
                     </button>
+                </div>
+                <div className="my-3">
+                    Need an account? <Link to="/register">Click here to register.</Link>
                 </div>
             </div>
         </Form>

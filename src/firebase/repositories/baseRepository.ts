@@ -1,15 +1,5 @@
 import { db } from 'firebase/firebase.utils';
-import {
-    collection,
-    addDoc,
-    CollectionReference,
-    DocumentData,
-    getDoc,
-    doc,
-    getDocs,
-    setDoc,
-    deleteDoc,
-} from 'firebase/firestore';
+import { collection, CollectionReference, DocumentData, getDoc, doc, getDocs, setDoc, deleteDoc } from 'firebase/firestore';
 import BaseDocumentModel from 'models/firebase/BaseDocumentModel';
 
 export class BaseRepository<TDocument extends BaseDocumentModel> {
@@ -29,20 +19,8 @@ export class BaseRepository<TDocument extends BaseDocumentModel> {
         return getDocs(this.collection);
     }
 
-    addAsync(document: TDocument) {
-        try {
-            return addDoc(this.collection, document);
-        } catch (e) {
-            console.error('Error adding document: ', e);
-        }
-    }
-
-    updateAsync(document: TDocument) {
-        try {
-            return setDoc(doc(db, this.collectionName, document.id), document);
-        } catch (e) {
-            console.error('Error adding document: ', e);
-        }
+    addOrUpdateAsync(document: TDocument) {
+        return setDoc(doc(db, this.collectionName, document.id), document);
     }
 
     deleteAsync(id: string) {

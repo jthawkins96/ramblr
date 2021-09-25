@@ -1,6 +1,13 @@
+@import '_variables.scss';
+
 .form-container {
     display: flex;
     padding: 15% 35% 0 35%;
     justify-content: center;
     flex-direction: column;
+
+    .form-validation-message {
+        color: red;
+        margin: $p-lg 0;
+    }
 }

@@ -5,6 +5,7 @@ import './App.scss';
 import UserModel from 'models/redux/UserModel';
 import RootStoreModel from 'models/redux/RootStoreModel';
 import { connect } from 'react-redux';
+import Register from 'components/Register/Register';
 
 interface AppProps {
     user?: UserModel;
@@ -16,7 +17,7 @@ const App = (props: AppProps) => {
             <BrowserRouter>
                 <Switch>
                     <Route exact path="/login" component={Login} />
-                    <Route exact path="/register" component={Login} />
+                    <Route exact path="/register" component={Register} />
                     {props.user == null ? <Redirect to="/login" /> : null}
                     <Route path="/" component={Home} />
                 </Switch>

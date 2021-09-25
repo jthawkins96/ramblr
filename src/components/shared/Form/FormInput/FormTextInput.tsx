@@ -9,9 +9,8 @@ interface FormTextInputProps {
     onChange: ChangeEventHandler<HTMLInputElement>;
     label: string;
     required: boolean;
-    touched: boolean;
-    showValidationMessage: boolean;
-    validationMessage: string;
+    showValidationMessage?: boolean;
+    validationMessage?: string;
 }
 
 const FormTextInput = (props: FormTextInputProps) => {
@@ -32,7 +31,7 @@ const FormTextInput = (props: FormTextInputProps) => {
             <label htmlFor={props.id} className={`form-label ${isFocused ? 'shrink' : ''}`}>
                 {props.label}
             </label>
-            {props.showValidationMessage && props.touched ? <span className="error-message">{props.validationMessage}</span> : null}
+            {props.showValidationMessage && isFocused ? <span className="error-message">{props.validationMessage}</span> : null}
         </div>
     );
 };
